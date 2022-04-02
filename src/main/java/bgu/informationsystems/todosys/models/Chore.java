@@ -1,13 +1,16 @@
 package bgu.informationsystems.todosys.models;
 
+import javax.persistence.Entity;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 
+@Entity
 public class Chore extends Task {
 
     public static enum Size {
-        SMALL("small"),
-        MEDIUM("medium"),
-        LARGE("large");
+        Small("small"),
+        Medium("medium"),
+        Large("large");
 
         private String string;
 

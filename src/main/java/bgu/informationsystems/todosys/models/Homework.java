@@ -2,6 +2,9 @@ package bgu.informationsystems.todosys.models;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Homework extends Task {
     private String course;
     private Date dueDate;
