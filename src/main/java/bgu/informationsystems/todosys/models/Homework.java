@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Homework extends Task {
+
     private String course;
     private Date dueDate;
     private String details;

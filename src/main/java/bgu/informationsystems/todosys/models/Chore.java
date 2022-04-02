@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 public class Chore extends Task {
 
     public static enum Size {
-        Small("small"),
-        Medium("medium"),
-        Large("large");
+        SMALL("small"),
+        MEDIUM("medium"),
+        LARGE("large");
 
         private String string;
 

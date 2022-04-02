@@ -7,20 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
- 
 
 import javax.persistence.*;
 import javax.persistence.Id;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = Chore.class, name = "Chore"),
-    @JsonSubTypes.Type(value = Homework.class, name = "Homework")
+        @JsonSubTypes.Type(value = Chore.class, name = "Chore"),
+        @JsonSubTypes.Type(value = Homework.class, name = "Homework")
 })
-
 @Entity
 @Table(name = "Tasks")
-
 public class Task {
 
     public static enum Status {
@@ -33,16 +30,17 @@ public class Task {
             string = text;
         }
 
-        public void update(String status){
+        public void update(String status) {
             string = status;
-        } 
+        }
+
         @JsonGetter
         @Override
         public String toString() {
             return string;
         }
     }
-    
+
     @JsonProperty(access = Access.READ_ONLY)
     @Id
     private String id;

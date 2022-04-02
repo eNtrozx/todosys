@@ -20,37 +20,39 @@ public class TasksController {
     @Autowired
     private TasksService tasksService;
 
-    @RequestMapping(value ="/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Task get(@PathVariable String id) {
         return tasksService.getTask(id);
     }
-    @RequestMapping(value ="/{id}", method = RequestMethod.PATCH)
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public void update(@PathVariable String id, @RequestBody Task task) {
-        tasksService.updateTask(id,task);
+        tasksService.updateTask(id, task);
     }
 
-    @RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable String id) {
-         tasksService.deleteTask(id);
+        tasksService.deleteTask(id);
     }
 
-    @RequestMapping(value ="/{id}/status", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/status", method = RequestMethod.GET)
     public String getStatus(@PathVariable String id) {
         return tasksService.getTask(id).getStatus().toString();
     }
 
-    @RequestMapping(value ="/{id}/status", method = RequestMethod.PUT)
-    public void setStatus(@PathVariable String id, @RequestBody String status) { 
+    @RequestMapping(value = "/{id}/status", method = RequestMethod.PUT)
+    public void setStatus(@PathVariable String id, @RequestBody String status) {
         tasksService.getTask(id).getStatus().update(status);
     }
 
-    @RequestMapping(value ="/{id}/owner", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/owner", method = RequestMethod.GET)
     public String getOwner(@PathVariable String id) {
         return tasksService.getTask(id).getOwnerId();
     }
-    @RequestMapping(value ="/{id}/owner", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/{id}/owner", method = RequestMethod.PUT)
     public void setOwner(@PathVariable String id, @RequestBody String ownerId) {
         tasksService.getTask(id).setOwnerId(ownerId);
     }
-    
+
 }
