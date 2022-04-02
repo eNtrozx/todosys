@@ -1,11 +1,17 @@
 package bgu.informationsystems.todosys.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonProperty.Access; 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "Persons")
 
 public class Person {
 
     @JsonProperty(access = Access.READ_ONLY)
+    @Id  
     private String id;
     private String name;
     private String email;
@@ -41,6 +47,5 @@ public class Person {
 
     public void setFavoriteProgrammingLanguage(String favoriteProgrammingLanguage) {
         this.favoriteProgrammingLanguage = favoriteProgrammingLanguage;
-    }
-    
+    } 
 }
