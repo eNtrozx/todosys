@@ -1,11 +1,10 @@
-package bgu.informationsystems.todosys.Repository;
-
-import bgu.informationsystems.todosys.models.Person;
+package bgu.informationsystems.todosys.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonRepo extends JpaRepository<Person, String> {
-    Person findByid(String id);
+import bgu.informationsystems.todosys.models.Person;
 
-    void deleteById(String id);
+public interface PersonRepo extends JpaRepository<Person, String> {
+
+    boolean existsByEmail(String email);
 }

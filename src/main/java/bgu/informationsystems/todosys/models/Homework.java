@@ -3,12 +3,17 @@ package bgu.informationsystems.todosys.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Homework extends Task {
 
+    @NotBlank(message = "course can not be empty")
     private String course;
+
+    // TODO validate and make it work
     private Date dueDate;
+
     private String details;
 
     public String getCourse() {

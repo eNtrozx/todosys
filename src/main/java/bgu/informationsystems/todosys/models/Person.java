@@ -2,7 +2,12 @@ package bgu.informationsystems.todosys.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Persons")
@@ -10,9 +15,18 @@ public class Person {
 
     @JsonProperty(access = Access.READ_ONLY)
     @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+
+    @NotBlank(message = "name can not be empty")
     private String name;
+
+    @Email(message = "Invalid email address")
+    @Column(unique = true)
     private String email;
+
+    @NotBlank(message = "favoriteProgrammingLanguage can not be empty")
     private String favoriteProgrammingLanguage;
 
     public String getId() {

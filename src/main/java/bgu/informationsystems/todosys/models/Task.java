@@ -1,15 +1,18 @@
 package bgu.informationsystems.todosys.models;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({
@@ -21,8 +24,8 @@ import javax.persistence.Id;
 public class Task {
 
     public static enum Status {
-        Active("Active"),
-        Done("Done");
+        ACTIVE("Active"),
+        DONE("Done");
 
         private String string;
 
@@ -30,11 +33,7 @@ public class Task {
             string = text;
         }
 
-        public void update(String status) {
-            string = status;
-        }
-
-        @JsonGetter
+        @JsonValue
         @Override
         public String toString() {
             return string;
@@ -43,9 +42,13 @@ public class Task {
 
     @JsonProperty(access = Access.READ_ONLY)
     @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+
+    @NotBlank(message = "ownerId can not be empty")
     private String ownerId;
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     public String getId() {
         return this.id;

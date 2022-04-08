@@ -2,15 +2,15 @@ package bgu.informationsystems.todosys.models;
 
 import javax.persistence.Entity;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @Entity
 public class Chore extends Task {
 
     public static enum Size {
-        SMALL("small"),
-        MEDIUM("medium"),
-        LARGE("large");
+        SMALL("Small"),
+        MEDIUM("Medium"),
+        LARGE("Large");
 
         private String string;
 
@@ -18,7 +18,7 @@ public class Chore extends Task {
             string = text;
         }
 
-        @JsonGetter
+        @JsonValue
         @Override
         public String toString() {
             return string;
