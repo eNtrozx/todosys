@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import bgu.informationsystems.todosys.excpetions.NoSuchEntityException;
+import bgu.informationsystems.todosys.exceptions.NoSuchEntityException;
 import bgu.informationsystems.todosys.models.Task;
 import bgu.informationsystems.todosys.services.TasksService;
 

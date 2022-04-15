@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import bgu.informationsystems.todosys.excpetions.NoSuchEntityException;
+import bgu.informationsystems.todosys.exceptions.NoSuchEntityException;
 import bgu.informationsystems.todosys.models.Person;
 import bgu.informationsystems.todosys.models.Task;
 import bgu.informationsystems.todosys.repository.PersonRepo;

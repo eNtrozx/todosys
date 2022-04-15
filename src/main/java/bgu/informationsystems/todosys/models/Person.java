@@ -3,7 +3,7 @@ package bgu.informationsystems.todosys.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.GenericGenerator; 
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

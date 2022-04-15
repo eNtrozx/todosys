@@ -1,4 +1,4 @@
-package bgu.informationsystems.todosys.excpetions;
+package bgu.informationsystems.todosys.exceptions;
 
 import java.util.NoSuchElementException;
 

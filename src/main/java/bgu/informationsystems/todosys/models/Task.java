@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.GenericGenerator; 
 
 import javax.persistence.*;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-
+ 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Chore.class, name = "Chore"),
