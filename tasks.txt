@@ -1,18 +1,20 @@
-POST  	/people/ 				Add a new person to the system.										Partial		validation Not working (unique email works)
+POST  	/people/ 				Add a new person to the system.										Partial		validation Not working (unique email works)  -> Done  
 GET 	/people/ 				Get a list of all people in the system.								Done
 GET 	/people/{id} 			Get a detailed description of the person whose id is provided.		Done
 PATCH 	/people/{id} 			Update person details.
 DELETE 	/people/{id} 			Remove the person whose id is provided from the system.				Done
-GET 	/people/{id}/tasks/ 	Get an array of relevant tasks that belong to the person.			Partial 	need to add the custom parametrs
+GET 	/people/{id}/tasks/ 	Get an array of relevant tasks that belong to the person.			Partial 	need to add the custom parametrs -> Done  
 POST 	/people/{id}/tasks/ 	Add a new task to the person in the URL.							Partial		validation Not working. need to check Homework type
 GET 	/tasks/{id} 			Provide the details of the task whose id is provided.				Done
 PATCH 	/tasks/{id} 			Partial updates of task details.
 DELETE 	/tasks/{id} 			Remove a task from the system.										Done
 GET 	/tasks/{id}/status 		Get the status of the task.											Done
-PUT 	/tasks/{id}/status 		Set a task's status.												Partial		cusom error message (details in swagger)
+PUT 	/tasks/{id}/status 		Set a task's status.												Partial		cusom error message (details in swagger)  -> Done  
 GET 	/tasks/{id}/owner 		Get the task's owner's id.											Done
 PUT 	/tasks/{id}/owner 		Set a task's owner.													Done
 
 General:
-1. validations not working
-2. Try to make ControllerAdvice
+1. validations not working  -> Done  
+2. Try to make ControllerAdvice  -> Done  
+
+
