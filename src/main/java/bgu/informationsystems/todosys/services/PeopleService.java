@@ -1,5 +1,6 @@
 package bgu.informationsystems.todosys.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +54,20 @@ public class PeopleService {
         }
     }
 
-    public List<Task> getTasksOfPerson(String id) {
+    public List<Task> getTasksOfPerson(String id,String status) {
         getPerson(id);
-        return tasksRepo.findAllByOwnerId(id);
+        ArrayList<Task> tasks = (ArrayList<Task>)tasksRepo.findAllByOwnerId(id);
+        ArrayList<Task> tasksWithStatus = new ArrayList<>();
+ 
+        for(Task t : tasks){
+            if(t.getStatus().toString().toLowerCase().equals(status.toLowerCase()))
+              tasksWithStatus.add(t);
+        } 
+        return tasksWithStatus;
     }
 
     public void addTaskToPerson(String id, Task task) {
-        getPerson(id);
-        task.setOwnerId(id);
+        getPerson(id); 
         tasksRepo.save(task);
     }
 }

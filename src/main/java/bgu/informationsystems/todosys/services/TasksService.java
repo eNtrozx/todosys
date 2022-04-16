@@ -46,5 +46,6 @@ public class TasksService {
         Task task = getTask(id);
         task.setStatus(status);
         tasksRepo.save(task);
-    }
+    } 
+    
 }

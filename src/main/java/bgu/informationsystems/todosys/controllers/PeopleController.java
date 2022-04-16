@@ -1,15 +1,22 @@
 package bgu.informationsystems.todosys.controllers;
  
 import java.util.HashMap;
-import java.util.List; 
+import java.util.List;
+import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
-import javax.validation.Valid; 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus; 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError; 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController; 
 
@@ -37,7 +46,7 @@ public class PeopleController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/", method = RequestMethod.POST)
 
-    public void add(@Valid  @RequestBody Person person, HttpServletResponse response) { // TODO @Valid not working 
+    public void add(@Valid  @RequestBody Person person, HttpServletResponse response) { 
         peopleService.addPerson(person);
         response.setHeader(HttpHeaders.LOCATION, "/api/people/" + person.getId());
         response.setHeader("x-Created-Id", person.getId());
@@ -64,13 +73,14 @@ public class PeopleController {
     }
 
     @RequestMapping(value = "/{id}/tasks", method = RequestMethod.GET)
-    List<Task> getTasks(@PathVariable String id) {
-        return peopleService.getTasksOfPerson(id);
+    List<Task> getTasks(@PathVariable String id, @RequestParam("status") String status) {
+        return peopleService.getTasksOfPerson(id,status);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{id}/tasks", method = RequestMethod.POST)
-    public void addTask(@PathVariable String id, @RequestBody Task task, HttpServletResponse response) {
+    public void addTask(@PathVariable @NotBlank(message = "ownerId can not be empty") String id, @Valid @RequestBody Task task, HttpServletResponse response) { 
+        task.setOwnerId(id);
         peopleService.addTaskToPerson(id, task);
         response.setHeader(HttpHeaders.LOCATION, "/api/tasks/" + task.getId());
         response.setHeader("x-Created-Id", task.getId());
@@ -91,11 +101,9 @@ public class PeopleController {
         return "";
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-
+    @ExceptionHandler(MethodArgumentNotValidException.class) 
     public HashMap<String, String> handleValidationExceptions(
-    MethodArgumentNotValidException ex) {
-    System.out.println("EW");
+    MethodArgumentNotValidException ex) { 
     HashMap<String, String> errors = new HashMap<>();
     ex.getBindingResult().getAllErrors().forEach((error) -> {
         String fieldName = ((FieldError) error).getField();
@@ -103,5 +111,14 @@ public class PeopleController {
         errors.put(fieldName, errorMessage);
     });
     return errors;
-}
+   } 
+  
+   @ResponseStatus(HttpStatus.BAD_REQUEST)
+   @ExceptionHandler(HttpMessageNotReadableException.class)
+   public String handleMessageInvalidFormat(HttpMessageNotReadableException formatException) {
+       String error = formatException.getMessage().toString(); 
+       if (error.contains("known type ids = [Chore, Homework, Task];")) 
+        return "Invalid task type"; 
+       return "";
+   } 
 }

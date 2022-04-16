@@ -22,6 +22,7 @@ public class Person {
     @NotBlank(message = "name can not be empty")
     private String name;
 
+    @NotBlank(message = "email can not be empty")
     @Email(message = "Invalid email address")
     @Column(unique = true)
     private String email;
