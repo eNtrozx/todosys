@@ -1,5 +1,7 @@
 package bgu.informationsystems.todosys.controllers;
- 
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,39 +28,39 @@ public class TasksController {
     private TasksService tasksService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Task get(@PathVariable String id) {
+    public Task get(@NotBlank @PathVariable String id) {
         return tasksService.getTask(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public void update(@PathVariable String id, @RequestBody Task task) {
+    public void update(@NotBlank @PathVariable String id, @Valid @RequestBody Task task) {
         tasksService.updateTask(id, task);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable String id) {
+    public void delete(@NotBlank @PathVariable String id) {
         tasksService.deleteTask(id);
     }
 
     @RequestMapping(value = "/{id}/status", method = RequestMethod.GET)
-    public String getStatus(@PathVariable String id) {
+    public String getStatus(@NotBlank @PathVariable String id) {
         return tasksService.getTask(id).getStatus().toString();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}/status", method = RequestMethod.PUT)
-    public void setStatus(@PathVariable String id, @RequestBody Task.Status status) {
+    public void setStatus(@NotBlank @PathVariable String id, @RequestBody Task.Status status) {
         tasksService.setStatus(id, status);
     }
 
     @RequestMapping(value = "/{id}/owner", method = RequestMethod.GET)
-    public String getOwner(@PathVariable String id) {
+    public String getOwner(@NotBlank @PathVariable String id) {
         return tasksService.getTask(id).getOwnerId();
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}/owner", method = RequestMethod.PUT)
-    public void setOwner(@PathVariable String id, @RequestBody String ownerId) {
+    public void setOwner(@NotBlank @PathVariable String id, @RequestBody String ownerId) {
         tasksService.setOwnerId(id, ownerId);
     }
 
@@ -66,17 +68,16 @@ public class TasksController {
     @ExceptionHandler(NoSuchEntityException.class)
     public String entityNotFoundHandler(NoSuchEntityException ex) {
         return ex.getMessage();
-    } 
-    
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public String handleMessageInvalidFormat(HttpMessageNotReadableException formatException) {
-        String error = formatException.getMessage().toString();  
-   
-        if(error.contains("values accepted for Enum class: [Done, Active];")) { 
-         String taskStatusInputted = error.split("from String \"")[1].split("\":")[0];
-         return "value '"+taskStatusInputted+"' is not a legal task status.";
+        String error = formatException.getMessage().toString();
+        if (error.contains("Task$Status")) {
+            String taskStatusInputted = error.split("from String \"")[1].split("\":")[0];
+            return "value '" + taskStatusInputted + "' is not a legal task status.";
         }
-        return "";  
- }
+        return "";
+    }
 }

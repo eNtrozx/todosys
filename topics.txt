@@ -1,0 +1,3 @@
+Layers (controller, service, repo, 3rd party service/rest)
+de/serialization in controller
+DB abstraction

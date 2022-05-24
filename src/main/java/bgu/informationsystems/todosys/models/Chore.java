@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import bgu.informationsystems.todosys.validations.NullOrNotBlank;
+
 @Entity
 public class Chore extends Task {
 
@@ -25,7 +27,9 @@ public class Chore extends Task {
         }
     }
 
+    @NullOrNotBlank
     private String description;
+
     private Size size;
 
     public String getDescription() {

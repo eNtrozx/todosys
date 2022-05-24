@@ -1,5 +1,5 @@
 package bgu.informationsystems.todosys.models;
-  
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
 
-import org.hibernate.annotations.GenericGenerator; 
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.persistence.Id;  
- 
+import javax.persistence.Id;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Chore.class, name = "Chore"),
@@ -23,8 +23,8 @@ import javax.persistence.Id;
 public class Task {
 
     public static enum Status {
-        ACTIVE("Active"),
-        DONE("Done");
+        ACTIVE("active"),
+        DONE("done");
 
         private String string;
 
@@ -45,8 +45,9 @@ public class Task {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-   
+    @JsonProperty(access = Access.READ_ONLY)
     private String ownerId;
+
     private Status status = Status.ACTIVE;
 
     public String getId() {
