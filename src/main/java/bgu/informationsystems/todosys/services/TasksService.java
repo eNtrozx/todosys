@@ -5,6 +5,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import bgu.informationsystems.todosys.exceptions.NoSuchEntityException;
+import bgu.informationsystems.todosys.models.Chore;
+import bgu.informationsystems.todosys.models.Homework;
 import bgu.informationsystems.todosys.models.Person;
 import bgu.informationsystems.todosys.models.Task;
 import bgu.informationsystems.todosys.models.Task.Status;
@@ -28,8 +30,37 @@ public class TasksService {
                 .orElseThrow(() -> new NoSuchEntityException("task", id));
     }
 
-    public void updateTask(String id, Task task) {
-        // @TODO
+    public void updateTask(String id, Task task) { 
+        Task currentTask = getTask(id);
+
+        if(currentTask instanceof Chore){
+        Chore currTask  = (Chore) currentTask;
+        Chore patchTask = (Chore) task;
+
+        if (patchTask.getStatus() != null)
+        currTask.setStatus(patchTask.getStatus());
+        if (patchTask.getDescription() != null)
+        currTask.setDescription(patchTask.getDescription()); 
+        if(patchTask.getSize() != null)
+        currTask.setSize(patchTask.getSize()); 
+
+        tasksRepo.save(currTask); 
+        }else 
+        if(currentTask instanceof Homework){
+            Homework currTask = (Homework) currentTask;
+            Homework patchTask = (Homework) task;
+    
+            if (patchTask.getCourse() != null)
+            currTask.setCourse(patchTask.getCourse());
+            if (patchTask.getDetails() != null)
+            currTask.setDetails(patchTask.getDetails()); 
+            if(patchTask.getDueDate() != null)
+            currTask.setDueDate(patchTask.getDueDate()); 
+            if(patchTask.getStatus() != null)
+            currTask.setDueDate(patchTask.getDueDate()); 
+    
+            tasksRepo.save(currTask); 
+        }
     }
 
     public void deleteTask(String id) {

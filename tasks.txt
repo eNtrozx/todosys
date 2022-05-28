@@ -4,9 +4,9 @@ GET 	/people/{id} 			Get a detailed description of the person whose id is provid
 PATCH 	/people/{id} 			Update person details.												Done
 DELETE 	/people/{id} 			Remove the person whose id is provided from the system.				Done
 GET 	/people/{id}/tasks/ 	Get an array of relevant tasks that belong to the person.			Done
-POST 	/people/{id}/tasks/ 	Add a new task to the person in the URL.							Need to check homework
+POST 	/people/{id}/tasks/ 	Add a new task to the person in the URL.							Done (Please check)
 GET 	/tasks/{id} 			Provide the details of the task whose id is provided.				Done
-PATCH 	/tasks/{id} 			Partial updates of task details.									Missing
+PATCH 	/tasks/{id} 			Partial updates of task details.									Missing -> Done (Please check)
 DELETE 	/tasks/{id} 			Remove a task from the system.										Done
 GET 	/tasks/{id}/status 		Get the status of the task.											Done
 PUT 	/tasks/{id}/status 		Set a task's status.												Done 
@@ -14,5 +14,5 @@ GET 	/tasks/{id}/owner 		Get the task's owner's id.											Done
 PUT 	/tasks/{id}/owner 		Set a task's owner.													Done
 
 General:
-2. Try to make ControllerAdvice																		Missing
+2. Try to make ControllerAdvice																		Missing - No idea what you meant here tbh
 3. increment activeTaskCount atomicly 																Done

@@ -1,5 +1,5 @@
 package bgu.informationsystems.todosys.controllers;
-
+ 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import bgu.informationsystems.todosys.exceptions.NoSuchEntityException;
+import bgu.informationsystems.todosys.models.Chore;
+import bgu.informationsystems.todosys.models.Homework;
 import bgu.informationsystems.todosys.models.Task;
+import bgu.informationsystems.todosys.services.PeopleService;
 import bgu.informationsystems.todosys.services.TasksService;
 
 @RestController
@@ -25,7 +28,9 @@ import bgu.informationsystems.todosys.services.TasksService;
 public class TasksController {
 
     @Autowired
-    private TasksService tasksService;
+    private TasksService tasksService; 
+    @Autowired
+    private PeopleService peopleService; 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Task get(@NotBlank @PathVariable String id) {
@@ -33,8 +38,22 @@ public class TasksController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public void update(@NotBlank @PathVariable String id, @Valid @RequestBody Task task) {
-        tasksService.updateTask(id, task);
+    public void update(@NotBlank @PathVariable String id, @Valid @RequestBody Task task) { 
+
+        Task currentTask        = tasksService.getTask(id);   
+        boolean tasksAreSameType = (currentTask instanceof Chore && task instanceof Chore) || (currentTask instanceof Homework && task instanceof Homework);
+
+        if( tasksAreSameType) //Same objects
+                tasksService.updateTask(id, task);
+        else {
+            // Not the same objects and hence it would be only logical to remove the old entry and readd the new one. 
+            // There are two possible scnearios:
+            //1. Previous task was homework and new task is Chore
+            //2. Previous task was Chore and new task is homework 
+
+            tasksService.deleteTask(id);
+            peopleService.addTaskToPerson(currentTask.getOwnerId(), task);
+        } 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -62,7 +81,7 @@ public class TasksController {
     @RequestMapping(value = "/{id}/owner", method = RequestMethod.PUT)
     public void setOwner(@NotBlank @PathVariable String id, @RequestBody String ownerId) {
         tasksService.setOwnerId(id, ownerId);
-    }
+    } 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchEntityException.class)

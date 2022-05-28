@@ -1,9 +1,10 @@
 package bgu.informationsystems.todosys.models;
+ 
+ 
+ 
+import javax.persistence.Entity; 
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-
+import bgu.informationsystems.todosys.validations.DateTimeValid;
 import bgu.informationsystems.todosys.validations.NullOrNotBlank;
 
 @Entity
@@ -11,9 +12,9 @@ public class Homework extends Task {
 
     @NullOrNotBlank
     private String course;
-
-    // TODO validate and make it work
-    private Date dueDate;
+   
+    @DateTimeValid 
+    private String dueDate;
 
     @NullOrNotBlank
     private String details;
@@ -26,11 +27,11 @@ public class Homework extends Task {
         this.course = course;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return this.dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
