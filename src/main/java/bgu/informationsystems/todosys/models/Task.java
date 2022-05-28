@@ -23,8 +23,8 @@ import javax.persistence.Id;
 public class Task {
 
     public static enum Status {
-        ACTIVE("Active"),
-        DONE("Done");
+        ACTIVE("active"),
+        DONE("done");
 
         private String string;
 

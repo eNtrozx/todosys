@@ -13,8 +13,8 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DateTimeValid{
 
-    public String message() default "Invalid datetime, use MM/dd/yyyy format!";
-    public String format() default "MM/dd/yyyy";
+    public String message() default "Invalid datetime, use ISO 8601 format!";
+    public String format() default "yyyy-MM-dd'T'HH:mm:ssZ";
     public Class<?>[] groups() default {};
     public Class<? extends Payload>[] payload() default {};
 }
