@@ -10,7 +10,7 @@ Ron Rachev
 
 This is an implemenation of a Todo system using Java and the Spring Framework.
 
-The system enables managing a list of persons, tasks, and assignning task to people.
+The system enables managing a list of persons, tasks, and assignning tasks to people.
 
 The system is built on top of 3 layers - Model View Controller, Service Layer, and JPA (Persistance Abstraction Layer).
 
@@ -20,9 +20,9 @@ API description: https://mbarsinai.com/files/bgu/2022a/miniproj/swagger/
 
 ### Model View Controller
 
-There are 2 controllers, one for managing people, availabe on `"/api/people"`, and one for maanging tasks, avialble on `"/api/tasks"`. The controllers provide various methopds for CRUD operation on the objects, such as `GET`, `POST`, `DELETE`, etc.
+There are 2 controllers, one for managing people, availabe on `"/api/people"`, and one for maanging tasks, avialble on `"/api/tasks"`. The controllers provide various methods for CRUD operation on the objects, such as `GET`, `POST`, `DELETE`, etc.
 
-The controllers also provide a lof of execption handling methods, such as when a requested object is not found, automatically transfoprming the rersponse type accordingly, e.g. status 404 for not found.
+The controllers also provide a lot of execption handling methods, such as when a requested object is not found, automatically transforming the rersponse type accordingly, e.g. status 404 for not found.
 
 ### Service Layer
 
