@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>bgu.informationsystems</groupId>
 	<artifactId>todosys</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>todosys</name>
 	<description>A RESTful API specification for a system that manages tasks and people</description>
 	<properties>
