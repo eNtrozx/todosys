@@ -30,7 +30,7 @@ The service layers provides the business logic and interaction with the reposito
 
 ### JPA
 
-This is an abstraction layer for the H2 embedded database. This abstraction provides us with easy Java methods that replace traditional SQL queries, such as `getPersonByEmail(String email)`.
+This is an abstraction layer for the H2 embedded database. This abstraction provides us with easy Java methods that replace traditional SQL queries, such as `deleteById(String)`.
 
 In this system, we have 2 repositores, `TaskRepo` and `PersonRepo`, where all the tasks are stored in a tasks table which is managed by `TaskRepo` and the same goes for `PersonRepo`.
 
