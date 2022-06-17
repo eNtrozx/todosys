@@ -3,13 +3,10 @@ package bgu.informationsystems.todosys.controllers;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
- 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,15 +22,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam; 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import bgu.informationsystems.todosys.exceptions.NoSuchEntityException; 
+import bgu.informationsystems.todosys.exceptions.NoSuchEntityException;
 import bgu.informationsystems.todosys.models.Person;
 import bgu.informationsystems.todosys.models.PersonUpdate;
 import bgu.informationsystems.todosys.models.Task;
-import bgu.informationsystems.todosys.services.PeopleService; 
+import bgu.informationsystems.todosys.services.PeopleService;
 
 @RestController
 @RequestMapping("/api/people")
@@ -41,11 +38,10 @@ import bgu.informationsystems.todosys.services.PeopleService;
 public class PeopleController {
 
     @Autowired
-    private PeopleService peopleService; 
+    private PeopleService peopleService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/", method = RequestMethod.POST)
-
     public void add(@Valid @RequestBody Person person, HttpServletResponse response) {
         peopleService.addPerson(person);
         response.setHeader(HttpHeaders.LOCATION, "/api/people/" + person.getId());
@@ -74,30 +70,34 @@ public class PeopleController {
 
     @RequestMapping(value = "/{id}/tasks", method = RequestMethod.GET)
     public ResponseEntity<?> getTasks(@NotBlank @PathVariable String id,
-            @RequestParam(value = "status", required = false) String status) { 
+            @RequestParam(value = "status", required = false) String status) {
         Task.Status enumStatus = null;
         if (status != null) {
             try {
                 enumStatus = Task.Status.valueOf(status.toUpperCase());
             } catch (IllegalArgumentException ignored) {
                 String msg = String.format("Invalid status [%s]. Accepted values are: %s", status,
-                        Arrays.toString(Task.Status.values())); 
-                return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+                        Arrays.toString(Task.Status.values()));
+                return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
             }
         }
-        return ResponseEntity.ok(peopleService.getTasksOfPerson(id, enumStatus));
+
+        Person person = peopleService.getPerson(id);
+        List<Task> tasks = (enumStatus == null)
+                ? person.getTasks()
+                : person.getTasks(enumStatus);
+        return ResponseEntity.ok(tasks);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/{id}/tasks", method = RequestMethod.POST)
     public void addTask(@NotBlank @PathVariable String id,
-            @Valid @RequestBody Task task, HttpServletResponse response) { 
-        task.setOwnerId(id);
-        peopleService.addTaskToPerson(id, task);
+            @Valid @RequestBody Task task, HttpServletResponse response) {
+        peopleService.addTask(id, task);
         response.setHeader(HttpHeaders.LOCATION, "/api/tasks/" + task.getId());
         response.setHeader("x-Created-Id", task.getId());
     }
-  
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchEntityException.class)
     public String entityNotFoundHandler(NoSuchEntityException ex) {

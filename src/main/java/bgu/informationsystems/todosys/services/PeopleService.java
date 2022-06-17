@@ -1,6 +1,5 @@
 package bgu.informationsystems.todosys.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,25 +48,14 @@ public class PeopleService {
 
     public void deletePerson(String id) {
         try {
-            personsRepo.deleteById(id);
+            personsRepo.deleteById(id); // This will also delete person's tasks
         } catch (EmptyResultDataAccessException e) {
             throw new NoSuchEntityException("person", id);
         }
     }
 
-    public List<Task> getTasksOfPerson(String id, Task.Status status) {
-        getPerson(id);
-        List<Task> tasks = tasksRepo.findAllByOwnerId(id);
-        if (status == null)
-            return tasks;
-        return tasks.stream().filter(t -> t.getStatus() == status).toList();
-    }
-
-    public void addTaskToPerson(String id, Task task) {
-        getPerson(id);
+    public void addTask(String ownerId, Task task) {
+        task.setOwner(getPerson(ownerId));
         tasksRepo.save(task);
-        if (task.getStatus() == Task.Status.ACTIVE) {
-            personsRepo.incrementActiveTaskCount(id);
-        }
     }
 }

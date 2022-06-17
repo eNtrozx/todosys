@@ -1,7 +1,9 @@
 package bgu.informationsystems.todosys.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonGetter;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -9,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.persistence.Id;
@@ -45,8 +49,10 @@ public class Task {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @JsonProperty(access = Access.READ_ONLY)
-    private String ownerId;
+    @JsonIgnore
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Person owner;
 
     private Status status = Status.ACTIVE;
 
@@ -58,12 +64,17 @@ public class Task {
         this.id = id;
     }
 
-    public String getOwnerId() {
-        return this.ownerId;
+    public Person getOwner() {
+        return this.owner;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    @JsonGetter(value = "ownerId")
+    public String getOwnerId() {
+        return this.getOwner().getId();
     }
 
     public Status getStatus() {
